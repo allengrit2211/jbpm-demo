@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head th:replace="common/head :: commonHead('我的任务列表')"></head>
+
+<body>
+
+<div th:replace="common/header :: header"/>
+
+<div class="container-fluid">
+
+    <div class="row-fluid">
+
+        <div th:replace="common/left :: left"/>
+
+        <div class="span9">
+
+            <div class="row">
+                <div class="span6">
+                    <ul class="breadcrumb">
+                        <li>
+                            <a th:href="@{/home/}">Home</a> <span class="divider">></span>
+                        </li>
+                        <!--<li>-->
+                        <!--<a href="#">Tutorials</a> <span class="divider">></span>-->
+                        <!--</li>-->
+                        <li class="active">My Task List</li>
+                    </ul>
+                </div>
+            </div>
+
+            <table class="table table-condensed">
+                <caption>组任务列表</caption>
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>status</th>
+                    <th>createdOn</th>
+                    <th>processInstanceId</th>
+                    <th>option</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="task,taskStat : ${tasks}">
+                    <td th:text="${task.id}"></td>
+                    <td th:text="${task.name}"></td>
+                    <td th:text="${task.status}"></td>
+                    <td th:text="${task.createdOn}"></td>
+                    <td th:text="${task.processInstanceId}"></td>
+                    <td>
+                        <form action="/task/claim" method="post">
+                            <input type="hidden" name="id" th:value="${task.id}">
+                            <input type="submit" class="btn btn-primary" value="Claim"/>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="common/footer :: footer"/>
+
+</body>
+
+</html>

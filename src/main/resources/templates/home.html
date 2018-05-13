@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+    <head th:replace="common/head :: commonHead('首页')"></head>
+
+    <body>
+
+        <div th:replace="common/header :: header"/>
+
+        <div class="container-fluid">
+
+            <div class="row-fluid">
+
+                <div th:replace="common/left :: left"/>
+
+                <div class="span9">
+                    <div class="navbar-header">
+                        <a href="#" class="navbar-brand">Project Name</a>
+                    </div>
+
+                    <div style="height: 100px;"></div>
+
+
+                    <form action="/task/start?id=4" method="post">
+                        <input type="submit" class="btn btn-primary" value="测试链接"/>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 引入 页脚 -->
+        <!--<div th:replace="common/footer :: footer"></div>-->
+
+        <div th:replace="common/footer :: footer"/>
+    </body>
+
+</html>

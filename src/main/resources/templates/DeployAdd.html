@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head th:replace="common/head :: commonHead('新增流程实例')"></head>
+
+<body>
+
+<div th:replace="common/header :: header"/>
+
+<div class="container-fluid">
+
+    <div class="row-fluid">
+
+        <div th:replace="common/left :: left"/>
+
+        <div class="span9">
+
+            <form role="form"  method="post" th:action="@{/deployment/deploy}">
+
+                <div class="form-group">
+                    <label for="deploymentId">部署ID</label>
+                    <input type="text" class="form-control" id="deploymentId" name="id" value="org.default:artifact:1.0.0-SNAPSHOT"
+                           placeholder="请输入部署ID">
+                </div>
+
+
+                <button type="submit" class="btn btn-default">提交</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div th:replace="common/footer :: footer"/>
+
+</body>
+
+</html>

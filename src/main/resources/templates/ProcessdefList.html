@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head th:replace="common/head :: commonHead('实例定义列表')"></head>
+
+<body>
+
+    <div th:replace="common/header :: header"/>
+
+    <div class="container-fluid">
+
+
+        <div class="row-fluid">
+            <div th:replace="common/left :: left"/>
+
+            <div class="span9">
+                <div class="row">
+                    <div class="span6">
+                        <ul class="breadcrumb">
+                            <li>
+                                <a th:href="@{/home/}">Home</a> <span class="divider">></span>
+                            </li>
+                            <!--<li>-->
+                            <!--<a href="#">Tutorials</a> <span class="divider">></span>-->
+                            <!--</li>-->
+                            <li class="active">Process Definition List</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <table class="table table-condensed">
+                    <caption>流程定义列表</caption>
+                    <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>name</th>
+                        <th>deploymentId</th>
+                        <th>option</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr  th:each="processDefinition,processDefinitionStat : ${processDefinitions}">
+                        <td th:text="${processDefinition.id}"></td>
+                        <td th:text="${processDefinition.name}"></td>
+                        <td th:text="${processDefinition.deploymentId}"></td>
+                        <td>
+                            <form action="/processdef/processdefAdd" method="post">
+                                <input type="hidden" name="name" th:value="${processDefinition.name}">
+                                <input type="hidden" name="deploymentId" th:value="${processDefinition.deploymentId}">
+                                <input type="hidden" name="id" th:value="${processDefinition.id}">
+                                <input type="submit" class="btn btn-primary" value="Add Instance"/>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <div th:replace="common/footer :: footer"/>
+
+</body>
+
+</html>

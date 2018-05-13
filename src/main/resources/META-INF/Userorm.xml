@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_0.xsd"
+                 version="2.0">
+
+    <named-query name="findByUsername">
+        <query>
+            select new com.gclfax.jbpm.demo.domain.User(
+                u.id,
+                u.username,
+                u.password,
+                u.phone,
+                u.email,
+                u.regTime,
+                u.rid
+            )
+            from User u
+            where
+            u.username = :username
+        </query>
+        <!-- hint name="org.hibernate.timeout" value="200"/ -->
+    </named-query>
+
+</entity-mappings>

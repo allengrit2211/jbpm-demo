@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head th:replace="common/head :: commonHead('流程实例列表')"></head>
+
+<body>
+
+<div th:replace="common/header :: header"/>
+
+<div class="container-fluid">
+
+    <div class="row-fluid">
+
+        <div th:replace="common/left :: left"/>
+
+        <div class="span9">
+            <div class="row">
+                <div class="span6">
+                    <ul class="breadcrumb">
+                        <li>
+                            <a th:href="@{/home/}">Home</a> <span class="divider">></span>
+                        </li>
+                        <!--<li>-->
+                        <!--<a href="#">Tutorials</a> <span class="divider">></span>-->
+                        <!--</li>-->
+                        <li class="active">Process Instance List</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="display: none">
+                ${ProcessinstanceListJson}
+            </div>
+
+            <table class="table table-condensed">
+                <caption>流程实例列表</caption>
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>processId</th>
+                    <th>processName</th>
+                    <th>dataTimeStamp</th>
+                    <th>processVersion</th>
+                    <th>state</th>
+                    <th>deploymentId</th>
+                    <th>option</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:each="processInstanceDesc,processInstanceDescStat : ${processInstances}">
+                    <td th:text="${processInstanceDesc.id}"></td>
+                    <td th:text="${processInstanceDesc.processId}"></td>
+                    <td th:text="${processInstanceDesc.dataTimeStamp}"></td>
+                    <td th:text="${processInstanceDesc.processName}"></td>
+                    <td th:text="${processInstanceDesc.processVersion}"></td>
+                    <td th:text="${processInstanceDesc.state}"></td>
+                    <td th:text="${processInstanceDesc.deploymentId}"></td>
+                    <td>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+</div>
+
+<div th:replace="common/footer :: footer"/>
+
+</body>
+
+</html>
