@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head th:replace="common/head :: commonHead('用户列表')"></head>
+
+<body>
+
+<div th:replace="common/header :: header"/>
+
+<div class="container-fluid">
+
+
+    <div class="row-fluid">
+        <div th:replace="common/left :: left"/>
+
+        <div class="span9">
+            <div class="row">
+                <div class="span6">
+                    <ul class="breadcrumb">
+                        <li>
+                            <a th:href="@{/home/}">Home</a> <span class="divider">></span>
+                        </li>
+                        <!--<li>-->
+                        <!--<a href="#">Tutorials</a> <span class="divider">></span>-->
+                        <!--</li>-->
+                        <li class="active">User List</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div>
+                <a th:href="@{/user/userAddShow}" class="btn btn-primary" role="button">Add User</a>
+            </div>
+
+            <table class="table table-condensed">
+                <caption>所有用户列表</caption>
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>username</th>
+                    <th>phone</th>
+                    <th>email</th>
+                    <th>regTime</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr  th:each="user,userStat : ${users}">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.phone}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.regTime}"></td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="common/footer :: footer"/>
+
+</body>
+
+</html>

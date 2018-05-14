@@ -11,9 +11,14 @@
 
     <util:properties id="roleProperties" location="classpath:/roles.properties" />
 
-    <bean id="userGroupCallback" class="org.jbpm.services.task.identity.JBossUserGroupCallbackImpl">
-        <constructor-arg name="userGroups" ref="roleProperties"></constructor-arg>
+    <!--<bean id="userGroupCallback" class="org.jbpm.services.task.identity.JBossUserGroupCallbackImpl">-->
+        <!--<constructor-arg name="userGroups" ref="roleProperties"></constructor-arg>-->
+    <!--</bean>-->
+
+    <bean id="userGroupCallback" class="org.jbpm.services.task.identity.DBUserGroupCallbackImpl">
+        <constructor-arg name="config" ref="roleProperties"></constructor-arg>
     </bean>
+
 
     <bean id="definitionService" class="org.jbpm.kie.services.impl.bpmn2.BPMN2DataServiceImpl"/>
 
@@ -22,7 +27,9 @@
         <property name="userGroupCallback" ref="userGroupCallback"/>
     </bean>
 
-    <bean id="identityProvider" class="com.gclfax.jbpm.demo.controller.SpringSecurityIdentityProvider"/>
+    <bean id="identityProvider" class="com.gclfax.jbpm.demo.config.SpringSecurityIdentityProvider">
+        <property name="roleDao" ref="roleDao"/>
+    </bean>
 
     <bean id="taskService" class="org.kie.spring.factorybeans.TaskServiceFactoryBean" destroy-method="close">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>

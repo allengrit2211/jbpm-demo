@@ -27,7 +27,7 @@
             from
             ProcessInstanceLog log
             ORDER BY
-            log.processId, log.start
+            log.processId, log.start desc
         </query>
         <!-- hint name="org.hibernate.timeout" value="200"/ -->
     </named-query>

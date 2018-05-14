@@ -6,14 +6,17 @@
 
     <named-query name="findByUsername">
         <query>
-            select new com.gclfax.jbpm.demo.domain.UserRole(
-            ur.id,
-            ur.uid,
-            ur.rid
+            select new com.gclfax.jbpm.demo.domain.User(
+            u.id,
+            u.username,
+            u.password,
+            u.phone,
+            u.email,
+            u.regTime
             )
-            from UserRole ur
+            from User u
             where
-            ur.uid = :uid
+            u.username = :username
         </query>
         <!-- hint name="org.hibernate.timeout" value="200"/ -->
     </named-query>

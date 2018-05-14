@@ -6,6 +6,8 @@ import org.jbpm.services.api.RuntimeDataService;
 import org.jbpm.services.api.model.ProcessDefinition;
 import org.kie.internal.query.QueryContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,7 +53,7 @@ public class ProcessDefController {
     public Long newProcessInstance(@RequestParam String deploymentId, @RequestParam String processId,
                                    @RequestParam Map<String, String> allRequestParams) {
 
-        allRequestParams.put("employee", "admin");
+        allRequestParams.put("employee", getAuthUser());
         allRequestParams.put("reason", "Yearly performance evaluation");
         long processInstanceId = processService.startProcess(deploymentId, processId, new HashMap<String, Object>(allRequestParams));
 
@@ -69,6 +71,13 @@ public class ProcessDefController {
         modelAndView.addObject("deploymentId",deploymentId);
 
         return modelAndView;
+    }
+
+    protected String getAuthUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String userId = auth.getName();
+
+        return userId;
     }
 
 

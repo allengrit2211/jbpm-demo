@@ -1,9 +1,13 @@
 package com.gclfax.jbpm.demo.service;
 
 import com.gclfax.jbpm.demo.dao.PermissionDao;
+import com.gclfax.jbpm.demo.dao.RoleDao;
 import com.gclfax.jbpm.demo.dao.UserDao;
+import com.gclfax.jbpm.demo.dao.UserRoleDao;
 import com.gclfax.jbpm.demo.domain.Permission;
+import com.gclfax.jbpm.demo.domain.Role;
 import com.gclfax.jbpm.demo.domain.User;
+import com.gclfax.jbpm.demo.domain.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,6 +28,12 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     UserDao userDao;
+
+    @Autowired
+    RoleDao roleDao;
+
+    @Autowired
+    UserRoleDao userRoleDao;
 
 
     @Autowired
@@ -48,7 +58,29 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public User findByUsername(String username){
+    public User findByUsername(String username) {
         return userDao.findByUsername(username);
+    }
+
+    public List<Role> findRoleByUserName(String userName) {
+        User user = userDao.findByUsername(userName);
+        if (user != null) {
+            return roleDao.findByUserName(user.getId());
+        }
+        return null;
+    }
+
+    /***
+     * 查询所有用户
+     * @return
+     */
+    public List<User> findAll() {
+        return userDao.findAll();
+    }
+
+
+    public void save(User user,UserRole userRole) {
+        userDao.save(user);
+        userRoleDao.save(userRole);
     }
 }

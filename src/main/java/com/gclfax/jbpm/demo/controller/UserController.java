@@ -1,8 +1,13 @@
 package com.gclfax.jbpm.demo.controller;
 
 
+import com.gclfax.jbpm.demo.domain.Role;
 import com.gclfax.jbpm.demo.domain.User;
+import com.gclfax.jbpm.demo.domain.UserRole;
+import com.gclfax.jbpm.demo.service.RoleService;
 import com.gclfax.jbpm.demo.service.UserService;
+import org.common5iq.util.Md5Util;
+import org.common5iq.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -28,6 +34,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    RoleService roleService;
 
     /**
      * 登录页面
@@ -50,6 +59,53 @@ public class UserController {
         return model;
     }
 
+    @RequestMapping("/user/userAddShow")
+    public ModelAndView addUserShow(HttpServletRequest request, HttpServletResponse response) {
+
+        List<Role> roles = roleService.findAll();
+        ModelAndView modelAndView = new ModelAndView("UserAdd");
+        modelAndView.addObject("roles", roles);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/user/userAdd", method = RequestMethod.POST)
+    public ModelAndView userAdd(HttpServletRequest request, HttpServletResponse response) {
+
+
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String phone = request.getParameter("phone");
+        String email = request.getParameter("email");
+        String roleId = request.getParameter("roleId");
+
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(Md5Util.getMd5(password));
+        user.setPhone(phone);
+        user.setEmail(email);
+        user.setRegTime(new Date());
+
+        UserRole userRole = new UserRole();
+        userRole.setRid(Utils.toInteger(roleId));
+
+        userService.save(user,userRole);
+
+        ModelAndView modelAndView = new ModelAndView("redirect:/user/userList");
+
+        return modelAndView;
+    }
+
+
+    @RequestMapping("/user/userList")
+    public ModelAndView userList(HttpServletRequest request, HttpServletResponse response) {
+
+        List<User> users = userService.findAll();
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("UserList");
+        modelAndView.addObject("users", users);
+        return modelAndView;
+    }
 //
 //    @RequestMapping("/logout")
 //    public String logout( HttpServletRequest request, HttpServletResponse response) {

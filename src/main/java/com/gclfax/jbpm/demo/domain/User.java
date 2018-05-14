@@ -26,20 +26,18 @@ public class User {
     private String phone;
     private String email;
     private Date regTime;
-    private Integer rid;
 
     public User() {
 
     }
 
-    public User(Integer id, String username, String password, String phone, String email, Date regTime, Integer rid) {
+    public User(Integer id, String username, String password, String phone, String email, Date regTime) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.phone = phone;
         this.email = email;
         this.regTime = regTime;
-        this.rid = rid;
     }
 
 
@@ -91,11 +89,4 @@ public class User {
         this.regTime = regTime;
     }
 
-    public Integer getRid() {
-        return rid;
-    }
-
-    public void setRid(Integer rid) {
-        this.rid = rid;
-    }
 }

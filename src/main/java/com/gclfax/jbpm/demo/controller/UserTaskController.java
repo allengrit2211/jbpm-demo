@@ -1,5 +1,8 @@
 package com.gclfax.jbpm.demo.controller;
 
+import com.gclfax.jbpm.demo.domain.Role;
+import com.gclfax.jbpm.demo.service.UserService;
+import org.common5iq.util.Utils;
 import org.jbpm.services.api.DefinitionService;
 import org.jbpm.services.api.RuntimeDataService;
 import org.jbpm.services.api.UserTaskService;
@@ -33,6 +36,9 @@ public class UserTaskController {
     private UserTaskService userTaskService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private DefinitionService definitionService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -62,7 +68,8 @@ public class UserTaskController {
 
         String userId = getAuthUser();
 
-        List<TaskSummary> tasks = runtimeDataService.getTasksAssignedAsPotentialOwner(userId, null);
+        List<AuditTask> tasks = runtimeDataService.getAllAuditTask(userId, null);
+
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("MyTaskList");
@@ -78,7 +85,13 @@ public class UserTaskController {
 
         String userId = getAuthUser();
 
-        List<AuditTask> tasks = runtimeDataService.getAllGroupAuditTask("HR", null);
+        List<Role> role = userService.findRoleByUserName(userId);
+
+        String groupStr = "";
+        if (role != null && role.size() > 0 && !Utils.isBlank(role.get(0).getName())) {
+            groupStr = role.get(0).getName();
+        }
+        List<AuditTask> tasks = runtimeDataService.getAllGroupAuditTask(groupStr, null);
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("GroupTaskList");
@@ -88,7 +101,6 @@ public class UserTaskController {
 
         return modelAndView;
     }
-
 
 
     @RequestMapping(value = "/complete", method = RequestMethod.POST)

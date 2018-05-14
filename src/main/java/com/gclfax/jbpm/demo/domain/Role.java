@@ -21,6 +21,18 @@ public class Role {
     private Date createTime;
     private Short status;
 
+    public Role(){
+
+    }
+
+
+    public Role(Integer id,String name,Date createTime,Short status){
+        this.id = id;
+        this.name = name;
+        this.createTime = createTime;
+        this.status = status;
+    }
+
     public Integer getId() {
         return id;
     }

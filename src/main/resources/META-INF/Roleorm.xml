@@ -4,18 +4,18 @@
                  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_0.xsd"
                  version="2.0">
 
-    <named-query name="findByUsername">
+    <named-query name="findAll">
         <query>
-            select new com.gclfax.jbpm.demo.domain.UserRole(
-            ur.id,
-            ur.uid,
-            ur.rid
+            select new com.gclfax.jbpm.demo.domain.Role(
+            r.id,
+            r.name,
+            r.createTime,
+            r.status
             )
-            from UserRole ur
-            where
-            ur.uid = :uid
+            from Role r
         </query>
         <!-- hint name="org.hibernate.timeout" value="200"/ -->
     </named-query>
+
 
 </entity-mappings>
