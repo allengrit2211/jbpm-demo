@@ -50,15 +50,13 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="role" class="col-sm-2 control-label">Role</label>
+                            <label class="col-sm-2 control-label">Role</label>
                             <div class="col-sm-10">
-                                <button type="button" class="btn btn-default dropdown-toggle"
-                                        data-toggle="dropdown">
-                                    默认 <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu" id="role">
-                                    <li th:each="role,roleStat : ${roles}" th:val="${role.id}"><a href="#" th:text="${role.name}"></a></li>
-                                </ul>
+                                <div class="checkbox" id="role">
+                                    <label th:each="role,roleStat : ${roles}" th:text="${role.name}">
+                                        <input type="checkbox" name="role" th:value="${role.id}">
+                                    </label>
+                                </div>
                             </div>
                             <input type="hidden" name="roleId" id="roleId">
                         </div>
@@ -80,8 +78,17 @@
 <script>
 
     $(function () {
-        $('#role li').on('click', function(){
-            $('#roleId').val($(this).attr("val"));
+        $("#role input[name='role']").on('click', function(){
+            var adIds = "";
+            $("#role input[name='role']").each(function(i){
+                if(0==i){
+                    adIds = $(this).val();
+                }else{
+                    adIds += (","+$(this).val());
+                }
+            });
+
+            $('#roleId').val(adIds);
         });
     })
 
