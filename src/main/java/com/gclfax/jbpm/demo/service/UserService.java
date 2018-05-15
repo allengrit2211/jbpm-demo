@@ -79,8 +79,11 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public void save(User user,UserRole userRole) {
+    public void save(User user,List<UserRole> userRoles) {
         userDao.save(user);
-        userRoleDao.save(userRole);
+        for(UserRole userRole:userRoles){
+            userRole.setUid(user.getId());
+            userRoleDao.save(userRole);
+        }
     }
 }

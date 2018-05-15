@@ -13,20 +13,33 @@
     <body>
 
         <div class="container">
-            <div>${error}</div>
-            <form role="form"  method="post" th:action="@{/login}">
-                <div class="form-group">
-                    <label for="username">名称</label>
-                    <input type="text" class="form-control" id="username" name="username"
-                           placeholder="请输入用户名">
+
+
+            <div class="panel panel-default" style="width: 500px;margin:100px auto;">
+                <div class="panel-heading">
+                     User Login
                 </div>
-                <div class="form-group">
-                    <label for="password">密码</label>
-                    <input type="password" id="password" name="password" placeholder="请输入密码">
-                    <!--<p class="help-block">这里是块级帮助文本的实例。</p>-->
+                <div class="panel-body" >
+                    <div th:text="${error}"></div>
+                    <form class="form-horizontal" role="form"  method="post" th:action="@{/login}">
+                        <div class="form-group">
+                            <label for="username">名称</label>
+                            <input type="text" class="form-control" id="username" name="username"
+                                   placeholder="请输入用户名">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">密码</label>
+                            <input type="password" id="password" name="password" placeholder="请输入密码">
+                            <!--<p class="help-block">这里是块级帮助文本的实例。</p>-->
+                        </div>
+                        <button type="submit" class="btn btn-default">提交</button>
+                    </form>
                 </div>
-                <button type="submit" class="btn btn-default">提交</button>
-            </form>
+
+            </div>
+
+
+
         </div>
     </body>
 

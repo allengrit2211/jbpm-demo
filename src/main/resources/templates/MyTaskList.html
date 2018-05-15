@@ -49,13 +49,13 @@
                     <td th:text="${task.createdOn}"></td>
                     <td th:text="${task.processInstanceId}"></td>
                     <td>
-                        <form action="/task/start" method="post">
+                        <form action="/task/start" method="post" id="form1">
                             <input type="hidden" name="id" th:value="${task.id}">
-                            <input type="submit" class="btn btn-primary" value="Start"/>
+                            <input type="button" onclick="taskStart()" class="btn btn-primary" value="Start"/>
                         </form>
-                        <form action="/task/complete" method="post">
+                        <form action="/task/complete" method="post" id="form2">
                             <input type="hidden" name="id" th:value="${task.id}">
-                            <input type="submit" class="btn btn-primary" value="Complete"/>
+                            <input type="button" onclick="taskComplete()" class="btn btn-primary" value="Complete"/>
                         </form>
                     </td>
                 </tr>
@@ -67,7 +67,40 @@
 
 
 <div th:replace="common/footer :: footer"/>
+<script>
+    function taskStart() {
+        $.ajax({
+            type: 'POST',
+            url: '/task/start',
+            dataType:"json",
+            data: $("#form1").serialize(),
+            success: function(data){
+                alert(data.msg)
+            },
+            error:function (error) {
+                alert(data.msg)
+            }
 
+        });
+    }
+
+    function taskComplete() {
+        $.ajax({
+            type: 'POST',
+            url: '/task/complete',
+            dataType:"json",
+            data: $("#form2").serialize(),
+            success: function(data){
+                alert(data.msg)
+            },
+            error:function (error) {
+                alert(data.msg)
+            }
+
+        });
+    }
+
+</script>
 </body>
 
 </html>

@@ -1,5 +1,6 @@
 package com.gclfax.jbpm.demo.controller;
 
+import net.sf.json.JSONObject;
 import org.jbpm.services.api.DefinitionService;
 import org.jbpm.services.api.ProcessService;
 import org.jbpm.services.api.RuntimeDataService;
@@ -8,10 +9,7 @@ import org.kie.internal.query.QueryContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collection;
@@ -50,14 +48,24 @@ public class ProcessDefController {
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public Long newProcessInstance(@RequestParam String deploymentId, @RequestParam String processId,
+    @ResponseBody
+    public String newProcessInstance(@RequestParam String deploymentId, @RequestParam String processId,
                                    @RequestParam Map<String, String> allRequestParams) {
 
-        allRequestParams.put("employee", getAuthUser());
-        allRequestParams.put("reason", "Yearly performance evaluation");
-        long processInstanceId = processService.startProcess(deploymentId, processId, new HashMap<String, Object>(allRequestParams));
+        Map<String, Object> map = new HashMap<>();
+        try{
+            allRequestParams.put("employee", getAuthUser());
+            allRequestParams.put("reason", "Yearly performance evaluation");
+            long processInstanceId = processService.startProcess(deploymentId, processId, new HashMap<String, Object>(allRequestParams));
 
-        return processInstanceId;
+            map.put("code",1);
+            map.put("msg",processInstanceId);
+            return JSONObject.fromObject(map).toString();
+
+        }catch (Exception e){
+            map.put("msg",e.getMessage());
+            return JSONObject.fromObject(map).toString();
+        }
 
     }
 

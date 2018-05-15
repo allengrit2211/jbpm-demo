@@ -22,6 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -62,7 +64,7 @@ public class UserController {
     @RequestMapping("/user/userAddShow")
     public ModelAndView addUserShow(HttpServletRequest request, HttpServletResponse response) {
 
-        List<Role> roles = roleService.findAll();
+        Collection<Role> roles = roleService.findAll();
         ModelAndView modelAndView = new ModelAndView("UserAdd");
         modelAndView.addObject("roles", roles);
         return modelAndView;
@@ -85,10 +87,15 @@ public class UserController {
         user.setEmail(email);
         user.setRegTime(new Date());
 
-        UserRole userRole = new UserRole();
-        userRole.setRid(Utils.toInteger(roleId));
 
-        userService.save(user,userRole);
+        List<UserRole> userRoles = new ArrayList<>();
+        for(String role:roleId.split(",")){
+            UserRole userRole = new UserRole();
+            userRole.setRid(Utils.toInteger(role));
+            userRoles.add(userRole);
+        }
+
+        userService.save(user,userRoles);
 
         ModelAndView modelAndView = new ModelAndView("redirect:/user/userList");
 

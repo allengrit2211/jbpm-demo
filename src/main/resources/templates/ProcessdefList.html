@@ -43,11 +43,11 @@
                         <td th:text="${processDefinition.name}"></td>
                         <td th:text="${processDefinition.deploymentId}"></td>
                         <td>
-                            <form action="/processdef/processdefAdd" method="post">
+                            <form action="/processdef/processdefAdd" method="post" id="form">
                                 <input type="hidden" name="name" th:value="${processDefinition.name}">
                                 <input type="hidden" name="deploymentId" th:value="${processDefinition.deploymentId}">
                                 <input type="hidden" name="id" th:value="${processDefinition.id}">
-                                <input type="submit" class="btn btn-primary" value="Add Instance"/>
+                                <input type="submit"  class="btn btn-primary" value="Add Instance"/>
                             </form>
                         </td>
                     </tr>
@@ -59,7 +59,24 @@
     </div>
 
     <div th:replace="common/footer :: footer"/>
+    <script>
+        function processdefAdd() {
+            $.ajax({
+                type: 'POST',
+                url: '/processdef/processdefAdd',
+                dataType:"json",
+                data: $("#form").serialize(),
+                success: function(data){
+                    alert(data.msg)
+                },
+                error:function (error) {
+                    alert(data.msg)
+                }
 
+            });
+        }
+
+    </script>
 </body>
 
 </html>

@@ -49,9 +49,9 @@
                     <td th:text="${task.createdOn}"></td>
                     <td th:text="${task.processInstanceId}"></td>
                     <td>
-                        <form action="/task/claim" method="post">
+                        <form action="/task/claim" method="post" id="form">
                             <input type="hidden" name="id" th:value="${task.id}">
-                            <input type="submit" class="btn btn-primary" value="Claim"/>
+                            <input type="button" onclick="claim()" class="btn btn-primary" value="Claim"/>
                         </form>
                     </td>
                 </tr>
@@ -63,6 +63,26 @@
 
 
 <div th:replace="common/footer :: footer"/>
+
+
+<script>
+    function claim() {
+        $.ajax({
+            type: 'POST',
+            url: '/task/claim',
+            dataType:"json",
+            data: $("#form").serialize(),
+            success: function(data){
+                alert(data.msg)
+            },
+            error:function (error) {
+                alert(data.msg)
+            }
+
+        });
+    }
+
+</script>
 
 </body>
 

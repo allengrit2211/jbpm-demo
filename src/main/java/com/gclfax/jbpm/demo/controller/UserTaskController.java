@@ -2,6 +2,7 @@ package com.gclfax.jbpm.demo.controller;
 
 import com.gclfax.jbpm.demo.domain.Role;
 import com.gclfax.jbpm.demo.service.UserService;
+import net.sf.json.JSONObject;
 import org.common5iq.util.Utils;
 import org.jbpm.services.api.DefinitionService;
 import org.jbpm.services.api.RuntimeDataService;
@@ -13,10 +14,7 @@ import org.kie.internal.task.api.AuditTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collection;
@@ -104,9 +102,11 @@ public class UserTaskController {
 
 
     @RequestMapping(value = "/complete", method = RequestMethod.POST)
+    @ResponseBody
     public String completeTask(@RequestParam String id, @RequestParam Map<String, String> allRequestParams) {
         String userId = getAuthUser();
 
+        Map<String, Object> map = new HashMap<>();
         Map<String, Object> data = new HashMap<String, Object>();
 
         for (Entry<String, String> entry : allRequestParams.entrySet()) {
@@ -127,46 +127,66 @@ public class UserTaskController {
 
         try {
             userTaskService.complete(Long.parseLong(id), userId, data);
-            return "Task " + id + " completed successfully";
+            map.put("msg",  "Task " + id + " completed successfully");
+            return JSONObject.fromObject(map).toString();
+
         } catch (Exception e) {
-            return "Task " + id + " complete failed due to " + e.getMessage();
+            map.put("msg",  "Task " + id + " complete failed due to " + e.getMessage());
+            return JSONObject.fromObject(map).toString();
         }
 
 
     }
 
     @RequestMapping(value = "/claim", method = RequestMethod.POST)
+    @ResponseBody
     public String claimTask(@RequestParam String id) {
         String userId = getAuthUser();
+        Map<String, Object> map = new HashMap<>();
         try {
             userTaskService.claim(Long.parseLong(id), userId);
-            return "Task " + id + " claimed successfully";
+
+            map.put("msg", "Task " + id + " claimed successfully");
+            return JSONObject.fromObject(map).toString();
         } catch (Exception e) {
-            return "Task " + id + " claim failed due to " + e.getMessage();
+            map.put("code",1);
+            map.put("msg","Task " + id + " claim failed due to " + e.getMessage());
+            return JSONObject.fromObject(map).toString();
+
         }
 
     }
 
     @RequestMapping(value = "/release", method = RequestMethod.POST)
+    @ResponseBody
     public String releaseTask(@RequestParam String id) {
         String userId = getAuthUser();
+        Map<String, Object> map = new HashMap<>();
         try {
             userTaskService.release(Long.parseLong(id), userId);
-            return "Task " + id + " released successfully";
+            map.put("msg", "Task " + id + " released successfully");
+            return JSONObject.fromObject(map).toString();
+
         } catch (Exception e) {
-            return "Task " + id + " release failed due to " + e.getMessage();
+            map.put("msg","Task " + id + " release failed due to " + e.getMessage());
+            return JSONObject.fromObject(map).toString();
         }
 
     }
 
     @RequestMapping(value = "/start", method = RequestMethod.POST)
+    @ResponseBody
     public String startTask(@RequestParam String id) {
         String userId = getAuthUser();
+        Map<String, Object> map = new HashMap<>();
         try {
             userTaskService.start(Long.parseLong(id), userId);
-            return "Task " + id + " started successfully";
+
+            map.put("msg", "Task " + id + " started successfully");
+            return JSONObject.fromObject(map).toString();
         } catch (Exception e) {
-            return "Task " + id + " start failed due to " + e.getMessage();
+            map.put("msg", "Task " + id + " start failed due to " + e.getMessage());
+            return JSONObject.fromObject(map).toString();
         }
 
     }

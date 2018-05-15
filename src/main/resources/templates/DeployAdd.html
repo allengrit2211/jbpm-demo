@@ -15,7 +15,7 @@
 
         <div class="span9">
 
-            <form role="form" class="form-horizontal" method="post" th:action="@{/deployment/deploy}">
+            <form role="form" id="form" class="form-horizontal" method="post" th:action="@{/deployment/deploy}">
 
                 <div class="form-group">
                     <label for="deploymentId">部署ID</label>
@@ -24,7 +24,7 @@
                 </div>
 
 
-                <button type="submit" class="btn btn-default">提交</button>
+                <button type="button" onclick="deploy()" class="btn btn-default">提交</button>
             </form>
 
         </div>
@@ -32,6 +32,26 @@
 </div>
 
 <div th:replace="common/footer :: footer"/>
+
+
+<script>
+    function deploy() {
+        $.ajax({
+            type: 'POST',
+            url: '/deployment/deploy',
+            dataType:"json",
+            data: $("#form").serialize(),
+            success: function(data){
+                alert(data.msg)
+            },
+            error:function (error) {
+                alert(data.msg)
+            }
+
+        });
+    }
+
+</script>
 
 </body>
 

@@ -31,7 +31,7 @@
                         <div class="form-group">
                             <label for="PassWord" class="col-sm-2 control-label">PassWord</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="PassWord" name="password"
+                                <input type="password" class="form-control" id="PassWord" name="password"
                                        placeholder="请输入密码">
                             </div>
                         </div>
@@ -39,7 +39,7 @@
                             <label for="phone" class="col-sm-2 control-label">Phone</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="phone" name="phone"
-                                       placeholder="请输入密码">
+                                       placeholder="请输入手机">
                             </div>
                         </div>
                         <div class="form-group">
@@ -53,9 +53,11 @@
                             <label class="col-sm-2 control-label">Role</label>
                             <div class="col-sm-10">
                                 <div class="checkbox" id="role">
-                                    <label th:each="role,roleStat : ${roles}" th:text="${role.name}">
-                                        <input type="checkbox" name="role" th:value="${role.id}">
-                                    </label>
+                                    <li th:each="role,roleStat : ${roles}">
+                                        <input type="checkbox" th:id="roleBox+${role.id}" th:value="${role.id}"></input>
+                                        <label th:for="roleBox+${role.id}" th:text="${role.name}"></label>
+                                    </li>
+
                                 </div>
                             </div>
                             <input type="hidden" name="roleId" id="roleId">
@@ -78,9 +80,9 @@
 <script>
 
     $(function () {
-        $("#role input[name='role']").on('click', function(){
+        $("#role input[type='checkbox']").bind('click', function(){
             var adIds = "";
-            $("#role input[name='role']").each(function(i){
+            $("#role input[type='checkbox']:checked").each(function(i){
                 if(0==i){
                     adIds = $(this).val();
                 }else{
