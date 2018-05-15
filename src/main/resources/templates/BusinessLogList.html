@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head th:replace="common/head :: commonHead('我的任务列表')"></head>
+
+<body>
+
+<div th:replace="common/header :: header"/>
+
+<div class="container-fluid">
+
+    <div class="row-fluid">
+
+        <div th:replace="common/left :: left"/>
+
+        <div class="span9">
+
+            <div class="row">
+                <div class="span6">
+                    <ul class="breadcrumb">
+                        <li>
+                            <a th:href="@{/home/}">Home</a> <span class="divider">></span>
+                        </li>
+                        <!--<li>-->
+                        <!--<a href="#">Tutorials</a> <span class="divider">></span>-->
+                        <!--</li>-->
+                        <li class="active">My Task List</li>
+                    </ul>
+                </div>
+            </div>
+
+            <table class="table table-condensed">
+                <caption>审核记录</caption>
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>业务ID</th>
+                    <th>实例ID</th>
+                    <th>任务ID</th>
+                    <th>审核用户</th>
+                    <th>审核时间</th>
+                    <th>审核内容</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="business1ReviewLog,business1ReviewLogStat : ${business1ReviewLogList}">
+                    <td th:text="${business1ReviewLog.id}"></td>
+                    <td th:text="${business1ReviewLog.bid}"></td>
+                    <td th:text="${business1ReviewLog.pid}"></td>
+                    <td th:text="${business1ReviewLog.tid}"></td>
+                    <td th:text="${business1ReviewLog.reviewUsername}"></td>
+                    <td th:text="${business1ReviewLog.reviewTime}"></td>
+                    <td th:text="${business1ReviewLog.reviewContent}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="common/footer :: footer"/>
+
+
+
+</body>
+
+</html>

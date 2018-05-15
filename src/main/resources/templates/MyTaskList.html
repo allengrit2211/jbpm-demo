@@ -37,6 +37,7 @@
                     <th>name</th>
                     <th>status</th>
                     <th>createdOn</th>
+                    <th>taskId</th>
                     <th>processInstanceId</th>
                     <th>option</th>
                 </tr>
@@ -47,14 +48,19 @@
                     <td th:text="${task.name}"></td>
                     <td th:text="${task.status}"></td>
                     <td th:text="${task.createdOn}"></td>
+                    <td th:text="${task.taskId}"></td>
                     <td th:text="${task.processInstanceId}"></td>
                     <td>
                         <form action="/task/start" method="post" id="form1">
                             <input type="hidden" name="id" th:value="${task.id}">
+                            <input type="hidden" name="tid" th:value="${task.taskId}">
+                            <input type="hidden" name="pid" th:value="${task.processInstanceId}">
                             <input type="button" onclick="taskStart()" class="btn btn-primary" value="Start"/>
                         </form>
                         <form action="/task/complete" method="post" id="form2">
                             <input type="hidden" name="id" th:value="${task.id}">
+                            <input type="hidden" name="tid" th:value="${task.taskId}">
+                            <input type="hidden" name="pid" th:value="${task.processInstanceId}">
                             <input type="button" onclick="taskComplete()" class="btn btn-primary" value="Complete"/>
                         </form>
                     </td>

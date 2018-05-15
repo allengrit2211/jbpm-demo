@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 
-<head th:replace="common/head :: commonHead('我的任务列表')"></head>
+<head th:replace="common/head :: commonHead('业务列表')"></head>
 
 <body>
 
@@ -24,40 +24,29 @@
                         <!--<li>-->
                         <!--<a href="#">Tutorials</a> <span class="divider">></span>-->
                         <!--</li>-->
-                        <li class="active">My Task List</li>
+                        <li class="active">Business List</li>
                     </ul>
                 </div>
             </div>
 
             <table class="table table-condensed">
-                <caption>组任务列表</caption>
+                <caption>业务列表</caption>
                 <thead>
                 <tr>
                     <th>id</th>
-                    <th>name</th>
-                    <th>status</th>
-                    <th>createdOn</th>
-                    <td>taskId</td>
-                    <th>processInstanceId</th>
+                    <th>content1</th>
+                    <th>content2</th>
+                    <th>content3</th>
                     <th>option</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="task,taskStat : ${tasks}">
-                    <td th:text="${task.id}"></td>
-                    <td th:text="${task.name}"></td>
-                    <td th:text="${task.status}"></td>
-                    <td th:text="${task.createdOn}"></td>
-                    <td th:text="${task.taskId}"></td>
-                    <td th:text="${task.processInstanceId}"></td>
-                    <td>
-                        <form action="/task/claim" method="post" id="form">
-                            <input type="hidden" name="id" th:value="${task.id}">
-                            <input type="hidden" name="tid" th:value="${task.taskId}">
-                            <input type="hidden" name="pid" th:value="${task.processInstanceId}">
-                            <input type="button" onclick="claim()" class="btn btn-primary" value="Claim"/>
-                        </form>
-                    </td>
+                <tr th:each="business,businessStat : ${businessList}">
+                    <td th:text="${business.id}"></td>
+                    <td th:text="${business.content1}"></td>
+                    <td th:text="${business.content2}"></td>
+                    <td th:text="${business.content3}"></td>
+                    <th><input th:bid="${business.id}" type="button" onclick="history(this)" class="btn btn-primary" value="审核记录"/></th>
                 </tr>
                 </tbody>
             </table>
@@ -70,6 +59,13 @@
 
 
 <script>
+
+
+    function history(obj) {
+        var bid = $(obj).attr("bid");
+        location.href = '/business/businessLogList?bid='+bid;
+    }
+
     function claim() {
         $.ajax({
             type: 'POST',
