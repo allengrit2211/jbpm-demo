@@ -1,6 +1,8 @@
 package com.gclfax.jbpm.demo.controller;
 
+import com.gclfax.jbpm.demo.domain.Business1ReviewLog;
 import com.gclfax.jbpm.demo.domain.Role;
+import com.gclfax.jbpm.demo.service.Business1ReviewLogService;
 import com.gclfax.jbpm.demo.service.UserService;
 import net.sf.json.JSONObject;
 import org.common5iq.util.Utils;
@@ -17,10 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 @RestController
@@ -38,6 +37,10 @@ public class UserTaskController {
 
     @Autowired
     private DefinitionService definitionService;
+
+
+    @Autowired
+    private Business1ReviewLogService business1ReviewLogService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public Collection<TaskSummary> getTasks() {
@@ -126,12 +129,29 @@ public class UserTaskController {
         }
 
         try {
+
+            int tid = Utils.toInteger(allRequestParams.get("tid"));
+            int pid = Utils.toInteger(allRequestParams.get("pid"));
+            Business1ReviewLog business1ReviewLog = business1ReviewLogService.findBusiness1ReviewLogByTidAndPid(tid, pid);
+
+            if (business1ReviewLog != null) {
+                Business1ReviewLog business1ReviewLog1 = new Business1ReviewLog();
+                business1ReviewLog1.setBid(business1ReviewLog.getBid());
+                business1ReviewLog1.setTid(tid);
+                business1ReviewLog1.setTid(pid);
+                business1ReviewLog1.setReviewUsername(userId);
+                business1ReviewLog1.setReviewTime(new Date());
+                business1ReviewLog1.setReviewContent("审核内容： 完成审核 时间：" + new Date());
+                business1ReviewLogService.save(business1ReviewLog1);
+            }
+
+
             userTaskService.complete(Long.parseLong(id), userId, data);
-            map.put("msg",  "Task " + id + " completed successfully");
+            map.put("msg", "Task " + id + " completed successfully");
             return JSONObject.fromObject(map).toString();
 
         } catch (Exception e) {
-            map.put("msg",  "Task " + id + " complete failed due to " + e.getMessage());
+            map.put("msg", "Task " + id + " complete failed due to " + e.getMessage());
             return JSONObject.fromObject(map).toString();
         }
 
@@ -140,17 +160,34 @@ public class UserTaskController {
 
     @RequestMapping(value = "/claim", method = RequestMethod.POST)
     @ResponseBody
-    public String claimTask(@RequestParam String id) {
+    public String claimTask(@RequestParam String id, @RequestParam Map<String, String> allRequestParams) {
         String userId = getAuthUser();
         Map<String, Object> map = new HashMap<>();
         try {
+
+
+            int tid = Utils.toInteger(allRequestParams.get("tid"));
+            int pid = Utils.toInteger(allRequestParams.get("pid"));
+            Business1ReviewLog business1ReviewLog = business1ReviewLogService.findBusiness1ReviewLogByTidAndPid(tid, pid);
+
+            if (business1ReviewLog != null) {
+                Business1ReviewLog business1ReviewLog1 = new Business1ReviewLog();
+                business1ReviewLog1.setBid(business1ReviewLog.getBid());
+                business1ReviewLog1.setTid(tid);
+                business1ReviewLog1.setTid(pid);
+                business1ReviewLog1.setReviewUsername(userId);
+                business1ReviewLog1.setReviewTime(new Date());
+                business1ReviewLog1.setReviewContent("审核内容： 开始审核 时间：" + new Date());
+                business1ReviewLogService.save(business1ReviewLog1);
+            }
+
             userTaskService.claim(Long.parseLong(id), userId);
 
             map.put("msg", "Task " + id + " claimed successfully");
             return JSONObject.fromObject(map).toString();
         } catch (Exception e) {
-            map.put("code",1);
-            map.put("msg","Task " + id + " claim failed due to " + e.getMessage());
+            map.put("code", 1);
+            map.put("msg", "Task " + id + " claim failed due to " + e.getMessage());
             return JSONObject.fromObject(map).toString();
 
         }
@@ -168,7 +205,7 @@ public class UserTaskController {
             return JSONObject.fromObject(map).toString();
 
         } catch (Exception e) {
-            map.put("msg","Task " + id + " release failed due to " + e.getMessage());
+            map.put("msg", "Task " + id + " release failed due to " + e.getMessage());
             return JSONObject.fromObject(map).toString();
         }
 
@@ -176,10 +213,29 @@ public class UserTaskController {
 
     @RequestMapping(value = "/start", method = RequestMethod.POST)
     @ResponseBody
-    public String startTask(@RequestParam String id) {
+    public String startTask(@RequestParam String id, @RequestParam Map<String, String> allRequestParams) {
         String userId = getAuthUser();
         Map<String, Object> map = new HashMap<>();
         try {
+
+
+
+            int tid = Utils.toInteger(allRequestParams.get("tid"));
+            int pid = Utils.toInteger(allRequestParams.get("pid"));
+            Business1ReviewLog business1ReviewLog = business1ReviewLogService.findBusiness1ReviewLogByTidAndPid(tid, pid);
+
+            if (business1ReviewLog != null) {
+                Business1ReviewLog business1ReviewLog1 = new Business1ReviewLog();
+                business1ReviewLog1.setBid(business1ReviewLog.getBid());
+                business1ReviewLog1.setTid(tid);
+                business1ReviewLog1.setTid(pid);
+                business1ReviewLog1.setReviewUsername(userId);
+                business1ReviewLog1.setReviewTime(new Date());
+                business1ReviewLog1.setReviewContent("审核内容： 开始审核 时间：" + new Date());
+                business1ReviewLogService.save(business1ReviewLog1);
+            }
+
+
             userTaskService.start(Long.parseLong(id), userId);
 
             map.put("msg", "Task " + id + " started successfully");
