@@ -132,13 +132,13 @@ public class UserTaskController {
 
             int tid = Utils.toInteger(allRequestParams.get("tid"));
             int pid = Utils.toInteger(allRequestParams.get("pid"));
-            Business1ReviewLog business1ReviewLog = business1ReviewLogService.findBusiness1ReviewLogByTidAndPid(tid, pid);
+            Business1ReviewLog business1ReviewLog = business1ReviewLogService.findBusiness1ReviewLogByPid(pid);
 
             if (business1ReviewLog != null) {
                 Business1ReviewLog business1ReviewLog1 = new Business1ReviewLog();
                 business1ReviewLog1.setBid(business1ReviewLog.getBid());
                 business1ReviewLog1.setTid(tid);
-                business1ReviewLog1.setTid(pid);
+                business1ReviewLog1.setPid(pid);
                 business1ReviewLog1.setReviewUsername(userId);
                 business1ReviewLog1.setReviewTime(new Date());
                 business1ReviewLog1.setReviewContent("审核内容： 完成审核 时间：" + new Date());
@@ -168,16 +168,16 @@ public class UserTaskController {
 
             int tid = Utils.toInteger(allRequestParams.get("tid"));
             int pid = Utils.toInteger(allRequestParams.get("pid"));
-            Business1ReviewLog business1ReviewLog = business1ReviewLogService.findBusiness1ReviewLogByTidAndPid(tid, pid);
+            Business1ReviewLog business1ReviewLog = business1ReviewLogService.findBusiness1ReviewLogByPid( pid);
 
             if (business1ReviewLog != null) {
                 Business1ReviewLog business1ReviewLog1 = new Business1ReviewLog();
                 business1ReviewLog1.setBid(business1ReviewLog.getBid());
                 business1ReviewLog1.setTid(tid);
-                business1ReviewLog1.setTid(pid);
+                business1ReviewLog1.setPid(pid);
                 business1ReviewLog1.setReviewUsername(userId);
                 business1ReviewLog1.setReviewTime(new Date());
-                business1ReviewLog1.setReviewContent("审核内容： 开始审核 时间：" + new Date());
+                business1ReviewLog1.setReviewContent("指派任务" + userId + " 时间：" + new Date());
                 business1ReviewLogService.save(business1ReviewLog1);
             }
 
@@ -222,13 +222,13 @@ public class UserTaskController {
 
             int tid = Utils.toInteger(allRequestParams.get("tid"));
             int pid = Utils.toInteger(allRequestParams.get("pid"));
-            Business1ReviewLog business1ReviewLog = business1ReviewLogService.findBusiness1ReviewLogByTidAndPid(tid, pid);
+            Business1ReviewLog business1ReviewLog = business1ReviewLogService.findBusiness1ReviewLogByPid(pid);
 
             if (business1ReviewLog != null) {
                 Business1ReviewLog business1ReviewLog1 = new Business1ReviewLog();
                 business1ReviewLog1.setBid(business1ReviewLog.getBid());
                 business1ReviewLog1.setTid(tid);
-                business1ReviewLog1.setTid(pid);
+                business1ReviewLog1.setPid(pid);
                 business1ReviewLog1.setReviewUsername(userId);
                 business1ReviewLog1.setReviewTime(new Date());
                 business1ReviewLog1.setReviewContent("审核内容： 开始审核 时间：" + new Date());

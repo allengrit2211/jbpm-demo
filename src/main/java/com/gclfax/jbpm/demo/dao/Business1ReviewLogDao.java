@@ -17,4 +17,7 @@ public interface Business1ReviewLogDao extends JpaRepository<Business1ReviewLog,
 
     @Query(value = "select * from t_business1_review_log where tid = ?1 and pid = ?2 limit 1", nativeQuery = true)
     Business1ReviewLog findBusiness1ReviewLogByTidAndPid(Integer tid, Integer pid);
+
+    @Query(value = "select * from t_business1_review_log where pid = ?1 limit 1", nativeQuery = true)
+    Business1ReviewLog findBusiness1ReviewLogByPid(Integer pid);
 }

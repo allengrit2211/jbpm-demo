@@ -23,7 +23,11 @@ public class Business1ReviewLogService {
         return business1ReviewLogDao.findBusiness1ReviewLogByTidAndPid(tid,pid);
     }
 
-    public void save(Business1ReviewLog business1ReviewLog){
+    public Business1ReviewLog findBusiness1ReviewLogByPid(Integer pid){
+        return business1ReviewLogDao.findBusiness1ReviewLogByPid(pid);
+    }
+
+  public void save(Business1ReviewLog business1ReviewLog){
         business1ReviewLogDao.save(business1ReviewLog);
     }
 

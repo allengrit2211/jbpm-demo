@@ -87,6 +87,7 @@ public class ProcessDefController {
 
             business1ReviewLog.setReviewTime(new Date());
             business1ReviewLog.setReviewUsername(getAuthUser());
+            business1ReviewLog.setReviewContent("创建流程实例开始审批流程 时间：" + new Date());
 
             businessService.save(business1, business1ReviewLog);
 
